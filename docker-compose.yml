@@ -1,0 +1,26 @@
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/blogdb    #to be edited
+
+  mongo:
+    image: mongo:6-alpine
+    ports:
+      - "2701:2701"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
