@@ -25,4 +25,16 @@ app.post('/api/posts', async (req, res) => {
   res.json(post);
 });
 
+app.delete('/api/posts/:id', async (req, res) => {
+  try {
+    const post = await Post.findByIdAndDelete(req.params.id);
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+    res.json({ message: 'Post deleted successfully', post });
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting post', error });
+  }
+});
+
 app.listen(5000, () => console.log('API running on port 5000'));
